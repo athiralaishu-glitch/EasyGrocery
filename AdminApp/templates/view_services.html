@@ -1,0 +1,43 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Services Table</h4>
+
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th> Service Name </th>
+            <th> Description </th>
+            <th> Image </th>
+            <th> Options </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in services %}
+          <tr>
+            <td>{{ c.Name }}</td>
+            <td>{{ c.Description }}</td>
+            <td>
+              {% if c.Image %}
+                <img src="{{ c.Image.url }}" width="80">
+              {% else %}
+                No Image
+              {% endif %}
+            </td>
+            <td>
+              <a class="btn btn-outline-primary" href="#">Edit</a>
+              <a class="btn btn-outline-danger" href="{% url 'delete_services' s_id=c.id %}">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
