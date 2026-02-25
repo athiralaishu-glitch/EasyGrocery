@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate,login
 from django.core.files.storage import FileSystemStorage
 from AdminApp.models import *
 from WebApp.models import *
+from  django.contrib import messages
 
 
 # Create your views here.
@@ -21,6 +22,7 @@ def save_category(request):
         image=request.FILES["cimg"]
         obj=CategoryDB(CategoryName=name,Description=description,CategoryImage=image)
         obj.save()
+        messages.success(request,"Category Successfully added...")
         return  redirect(add_category)
 
 def edit_category(request,c_id):
@@ -39,11 +41,13 @@ def update_category(request,c_id):
         except MultiValueDictKeyError:
             x=CategoryDB.objects.get(id=c_id).CategoryImage
         CategoryDB.objects.filter(id=c_id).update(CategoryName=name,Description=description,CategoryImage=x)
+        messages.success(request,'Category updates successfully...')
         return redirect(view_category)
 
 def delete_category(request,c_id):
     category=CategoryDB.objects.filter(id=c_id)
     category.delete()
+    messages.error(request,"Product deleted Successfully")
     return redirect(view_category )
 
 
@@ -69,6 +73,7 @@ def save_products(request):
         img=request.FILES["pimg"]
         products=ProductDB(ProductName=name,Description=desc,Price=price,Category_Name=cate,ProductImage=img)
         products.save()
+        messages.success(request,"Product saved Successfully..")
         return redirect(add_products)
 
 def view_products(request):
@@ -94,11 +99,13 @@ def update_products(request,p_id):
         except MultiValueDictKeyError:
             x=ProductDB.objects.get(id=p_id).ProductImage
         ProductDB.objects.filter(id=p_id).update(ProductName=name,Description=desc,Price=price,Category_Name=cate,ProductImage=x)
+        messages.success(request,'Product updates successfully...')
         return redirect(view_products)
 
 def delete_products(request,p_id):
     prod=ProductDB.objects.filter(id=p_id)
     prod.delete()
+    messages.error(request,"Product deleted Successfully")
     return redirect(view_products)
 #----------------------------------------------------------------------------------------------------------------------------------------
 

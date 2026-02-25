@@ -280,10 +280,10 @@
                         {% if request.session.Username %}
                         <div class="product__details__quantity">
                             <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1" class="pro-qty">
+<!--                                <div class="pro-qty">-->
+<!--                                    <input type="text" value="1" class="pro-qty">-->
 
-                                </div>
+<!--                                </div>-->
                             </div>
                         </div>
                         {% else %}
@@ -292,7 +292,11 @@
                         </div>
                         {% endif %}
 
-
+<div style="margin-top:15px; margin-bottom:15px;">
+    <input type="number" placeholder="Quantity" id="quantity" class="form-control" style="margin-bottom:10px;">
+    <input type="text" placeholder="Price" id="price" value="{{products.Price}}" class="form-control" style="margin-bottom:10px;">
+    <input type="text" placeholder="Total Price" id="total" class="form-control">
+</div>
                         <a href="#" class="primary-btn">ADD TO CARD</a>
                         <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         <ul>
@@ -548,6 +552,29 @@
     <script src="{% static 'Web/js/mixitup.min.js' %}"></script>
     <script src="{% static 'Web/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'Web/js/main.js' %}"></script>
+
+
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+<script>
+
+    $(document).ready(function(){
+        $("#quantity").change(function(){
+            x=document.getElementById("quantity").value;
+            y=document.getElementById("price").value;
+            result=x*y;
+            document.getElementById("total").value=result
+        })
+    })
+
+
+
+</script>
+
+
+
+
+
+
 
 
 </body>
