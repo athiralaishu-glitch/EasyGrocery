@@ -1,6 +1,9 @@
+
+
 from django.shortcuts import render,redirect
 from AdminApp.models import *
 from WebApp.models import *
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -80,6 +83,7 @@ def save_signup(request):
             print("Email already Exists....")
             return redirect(sign_up)
         obj.save()
+        messages.success(request,"Registered Successfully...")
         return redirect(sign_in)
 
 def user_login(request):
@@ -89,8 +93,11 @@ def user_login(request):
         if SignupDB.objects.filter(Username=uname,Password=pswd).exists():
             request.session['Username']=uname
             request.session['Password']=pswd
+            messages.success(request, "Logged in Successfully...")
             return redirect(home)
         else:
+            messages.error(request, "Invalid username or password...")
+
             return redirect(sign_in)
     else:
         return redirect(sign_in)
@@ -102,6 +109,34 @@ def user_logout(request):
 
 
 def cart(request):
-    return render(request,'cart.html')
+    data=CartDB.objects.filter(Username=request.session['Username'])
+    sub_total=0
+    delivery=0
+    grand_total=0
+    for i in data:
+        sub_total += i.TotalPrice
+        if sub_total > 1000:
+            delivery=0
+        elif sub_total > 500:
+            delivery=50
+        else:
+            delivery=100
+        grand_total=sub_total+delivery
+    return render(request,'cart.html',
+                  {'data':data,
+                            'sub_total':sub_total,
+                            'delivery':delivery,
+                            'grand_total':grand_total})
 
-
+def save_cart(request):
+    if request.method=='POST':
+        uname=request.POST.get("uname")
+        pname=request.POST.get("pname")
+        quantity=request.POST.get("quantity")
+        price=request.POST.get("price")
+        total=request.POST.get("total")
+        pro=ProductDB.objects.filter(ProductName=pname).first()
+        pimg=pro.ProductImage if pro else None
+        obj=CartDB(Username=uname,ProductName=pname,Quantity=quantity,Price=price,TotalPrice=total, ProductImage=pimg)
+        obj.save()
+    return redirect(cart)

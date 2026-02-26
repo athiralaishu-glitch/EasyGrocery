@@ -291,13 +291,17 @@
                             <a href="{% url 'sign_in' %}">please Login</a>
                         </div>
                         {% endif %}
-
+<form method="post" action="{% url 'save_cart' %}" enctype="multipart/form-data">
+    {% csrf_token %}
 <div style="margin-top:15px; margin-bottom:15px;">
-    <input type="number" placeholder="Quantity" id="quantity" class="form-control" style="margin-bottom:10px;">
-    <input type="text" placeholder="Price" id="price" value="{{products.Price}}" class="form-control" style="margin-bottom:10px;">
-    <input type="text" placeholder="Total Price" id="total" class="form-control">
+    <input type="number" placeholder="Quantity" name="quantity" id="quantity" class="form-control" style="margin-bottom:10px;">
+    <input type="hidden" placeholder="Price" id="price" name="price" value="{{products.Price}}" class="form-control" style="margin-bottom:10px;">
+    <input type="text" placeholder="Total Price" name="total" id="total" class="form-control">
+    <input type="hidden" placeholder="Price" id="pname" name="pname" value="{{products.ProductName}}" class="form-control" style="margin-bottom:10px;">
+    <input type="hidden" placeholder="uname" id="uname" name="uname" value="{{request.session.Username}}" class="form-control" style="margin-bottom:10px;"><br>
+<button type="submit" class="primary-btn">ADD TO CART</button>
 </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
+    </form>
                         <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         <ul>
                             <li><b>Availability</b> <span>In Stock</span></li>
