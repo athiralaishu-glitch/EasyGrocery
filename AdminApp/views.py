@@ -10,7 +10,13 @@ from  django.contrib import messages
 
 # Create your views here.
 def dashboard(request):
-    return render(request,'dashboard.html')
+    categories=CategoryDB.objects.count()
+    products=ProductDB.objects.count()
+    return render(request,'dashboard.html',
+                  {
+                      'categories':categories,
+                      'products':products
+                  })
 
 def add_category(request):
     return render(request,'add_category.html')

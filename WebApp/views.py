@@ -9,38 +9,82 @@ from django.contrib import messages
 def home(request):
     products=ProductDB.objects.order_by('-id')[:8]
     categories=CategoryDB.objects.all()
+    cart_count=0
+    uname=request.session.get('Username')
+    if uname:
+        cart_count = CartDB.objects.filter(Username=uname).count()
+
+    # items=data.count()
     return render(request,'home.html',
                   {
                       'categories':categories,
-                      'products':products
+                      'products':products,
+                      'cart_count':cart_count
+                      # 'items':items
                   })
 
 def about(request):
-    return  render(request,'about.html')
+    products = ProductDB.objects.order_by('-id')[:8]
+    categories = CategoryDB.objects.all()
+    cart_count = 0
+    uname = request.session.get('Username')
+    if uname:
+        cart_count = CartDB.objects.filter(Username=uname).count()
+    return  render(request,'about.html',
+                   {
+                       'categories': categories,
+                       'products': products,
+                       'cart_count': cart_count
+                       # 'items':items
+                   })
+
 
 def services(request):
+    products = ProductDB.objects.order_by('-id')[:8]
+    categories = CategoryDB.objects.all()
     services=ServicesDB.objects.all()
+    cart_count = 0
+    uname = request.session.get('Username')
+    if uname:
+        cart_count = CartDB.objects.filter(Username=uname).count()
     return  render(request,'services.html',
                    {
-                       'services':services
+                       'services':services,
+                       'categories': categories,
+                       'products': products,
+                       'cart_count': cart_count
                    })
 
 
 def all_products(request):
     categories=CategoryDB.objects.all()
     products=ProductDB.objects.all()
+
+    cart_count = 0
+    uname = request.session.get('Username')
+    if uname:
+        cart_count = CartDB.objects.filter(Username=uname).count()
     latest_products=ProductDB.objects.order_by('-id')[:3]
     return  render(request,'all_products.html',
                    {
                        'categories':categories,
                        'products':products,
-                       'latest_products':latest_products
+                       'latest_products':latest_products,
+                       'cart_count':cart_count
                     })
 
 def filtered_products(request,cat_name):
+    categories = CategoryDB.objects.all()
+    cart_count = 0
+    uname = request.session.get('Username')
+    if uname:
+        cart_count = CartDB.objects.filter(Username=uname).count()
     filtered_product=ProductDB.objects.filter(Category_Name=cat_name)
     return render(request,'filtered_products.html',
-                  {'filtered_product':filtered_product})
+                  {'filtered_product':filtered_product,
+                   'categories': categories,
+                   'cart_count': cart_count
+                   })
 
 def single_product(request,p_id):
     products=ProductDB.objects.get(id=p_id)
@@ -50,7 +94,18 @@ def single_product(request,p_id):
                   })
 
 def contact(request):
-    return  render(request,'contact.html')
+    products = ProductDB.objects.order_by('-id')[:8]
+    categories = CategoryDB.objects.all()
+    cart_count = 0
+    uname = request.session.get('Username')
+    if uname:
+        cart_count = CartDB.objects.filter(Username=uname).count()
+    return  render(request,'contact.html',
+                   {
+                       'categories': categories,
+                       'products': products,
+                       'cart_count': cart_count
+                   })
 
 def save_contact(request):
     if request.method=='POST':
@@ -106,9 +161,14 @@ def user_logout(request):
     del request.session['Username']
     del request.session['Password']
     return redirect(home)
-
+#------------------------------------------------------------------------------------------------------------------------------------------
 
 def cart(request):
+    categories = CategoryDB.objects.all()
+    cart_count = 0
+    uname = request.session.get('Username')
+    if uname:
+        cart_count = CartDB.objects.filter(Username=uname).count()
     data=CartDB.objects.filter(Username=request.session['Username'])
     sub_total=0
     delivery=0
@@ -126,7 +186,10 @@ def cart(request):
                   {'data':data,
                             'sub_total':sub_total,
                             'delivery':delivery,
-                            'grand_total':grand_total})
+                            'grand_total':grand_total,
+                            'categories': categories,
+                            'cart_count': cart_count
+                   })
 
 def save_cart(request):
     if request.method=='POST':
@@ -140,3 +203,19 @@ def save_cart(request):
         obj=CartDB(Username=uname,ProductName=pname,Quantity=quantity,Price=price,TotalPrice=total, ProductImage=pimg)
         obj.save()
     return redirect(cart)
+
+def delete_cart_items(request,c_id):
+    items=CartDB.objects.filter(id=c_id)
+    items.delete()
+    return redirect(cart)
+
+
+#---------------------------------------------------------------------------------------------------------------------------------------
+
+def checkout(request):
+    return render(request,'checkout.html')
+
+def payment(request):
+    return render(request,'payment.html')
+
+

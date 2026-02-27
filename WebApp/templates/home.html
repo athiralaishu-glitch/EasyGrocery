@@ -85,7 +85,7 @@
         <div class="humberger__menu__contact">
             <ul>
                 <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                <li>Free Shipping for all Order of $99</li>
+                <li>Free Shipping for all Order of Rs.1000</li>
             </ul>
         </div>
     </div>
@@ -100,7 +100,7 @@
                         <div class="header__top__left">
                             <ul>
                                 <li><i class="fa fa-envelope"></i> admin@easygrocery.com</li>
-                                <li>Free Shipping for all Order of 999</li>
+                                <li>Free Shipping for all Order of Rs.1000</li>
                             </ul>
                         </div>
                     </div>
@@ -158,7 +158,9 @@
                             <li><a href="{% url 'Our_products' %}">Products</a></li>
                             <li><a href="{% url 'services' %}">Services</a></li>
                             <li><a href="{% url 'contact' %}">Contact</a></li>
-                            <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            {% if request.session.Username %}
+                            <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-bag"></i> <span>{{cart_count}}</span></a></li>
+                            {% endif %}
                         </ul>
                     </nav>
                 </div>
