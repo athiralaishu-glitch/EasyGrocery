@@ -191,6 +191,7 @@ def cart(request):
                             'cart_count': cart_count
                    })
 
+
 def save_cart(request):
     if request.method=='POST':
         uname=request.POST.get("uname")
@@ -213,7 +214,48 @@ def delete_cart_items(request,c_id):
 #---------------------------------------------------------------------------------------------------------------------------------------
 
 def checkout(request):
-    return render(request,'checkout.html')
+    uname=request.session.get('Username')
+    cart_items=CartDB.objects.filter(Username=uname)
+    cart_count = 0
+    uname = request.session.get('Username')
+    if uname:
+        cart_count = CartDB.objects.filter(Username=uname).count()
+    data = CartDB.objects.filter(Username=request.session['Username'])
+    sub_total = 0
+    delivery = 0
+    grand_total = 0
+    for i in data:
+        sub_total += i.TotalPrice
+        if sub_total > 1000:
+            delivery = 0
+        elif sub_total > 500:
+            delivery = 50
+        else:
+            delivery = 100
+        grand_total = sub_total + delivery
+    return render(request,'checkout.html',
+                  {
+                      'cart_items':cart_items,
+                      'sub_total': sub_total,
+                      'delivery': delivery,
+                      'grand_total': grand_total,
+                      'cart_count': cart_count
+                   })
+
+def save_checkout(request):
+    if request.method=='POST':
+        fname=request.POST.get("fname")
+        lname=request.POST.get("lname")
+        state=request.POST.get("state")
+        address=request.POST.get("address")
+        city=request.POST.get("city")
+        pcode=request.POST.get("pcode")
+        phn=request.POST.get("phn")
+        email=request.POST.get("email")
+        gtotal=request.POST.get("gtotal")
+        obj=CheckoutDB(FirstName=fname,LastName=lname,State=state,Address=address,City=city,Postcode=pcode,Phone=phn,Email=email,Grandtotal=gtotal)
+        obj.save()
+        return redirect(payment)
 
 def payment(request):
     return render(request,'payment.html')

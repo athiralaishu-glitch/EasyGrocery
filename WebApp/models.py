@@ -20,5 +20,16 @@ class CartDB(models.Model):
     TotalPrice=models.IntegerField(null=True,blank=True)
     ProductImage=models.ImageField(upload_to='cart_images',null=True,blank=True)
 
+class CheckoutDB(models.Model):
+    FirstName=models.CharField(max_length=20,null=True,blank=True)
+    LastName=models.CharField(max_length=20,null=True,blank=True)
+    State=models.CharField(max_length=20,null=True,blank=True)
+    City=models.CharField(max_length=20,null=True,blank=True)
+    Address=models.TextField(max_length=200,null=True,blank=True)
+    Postcode=models.CharField(max_length=8,null=True,blank=True)
+    Phone=models.CharField(null=True,blank=True)
+    Email=models.EmailField(max_length=20,null=True,blank=True)
+    Grandtotal=models.CharField(null=True,blank=True)
+
 
 
