@@ -114,6 +114,7 @@ def save_contact(request):
         message=request.POST.get("msg")
         obj=ContactDB(Name=cname,Email=cemail,Message=message)
         obj.save()
+        messages.success(request,"Your message submitted succesfully..")
         return redirect(contact)
 
 

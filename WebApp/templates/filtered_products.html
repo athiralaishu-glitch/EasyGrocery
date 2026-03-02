@@ -31,11 +31,11 @@
         <div class="loader"></div>
     </div>
 
-     <!-- Humberger Begin -->
+    <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="{% static 'Web/img/logo.png' %}" alt=""></a>
+            <a href="#"><img src="{% static 'Web/img/logoeasygrocery.png' %}" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
@@ -139,7 +139,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="{% static 'Web/img/logo.png' %}" alt=""></a>
+                        <a href="./index.html"><img src="{% static 'Web/img/grocery.png' %}" height="150px" style="margin-top:-50px" alt=""></a>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -147,7 +147,7 @@
                         <ul>
                             <li ><a href="{% url 'home' %}">Home</a></li>
                             <li><a href="{% url 'about' %}">About</a></li>
-                            <li class="active"><a href="#">Categories</a>
+                            <li><a href="#">Categories</a>
                                 <ul class="header__menu__dropdown">
                                     {% for i in categories %}
                                     <li><a href="{% url 'filtered_products' cat_name=i.CategoryName %}">{{i.CategoryName}}</a></li>
@@ -155,7 +155,7 @@
 
                                 </ul>
                             </li>
-                            <li><a href="{% url 'Our_products' %}">Products</a></li>
+                            <li class="active"><a href="{% url 'Our_products' %}">Products</a></li>
                             <li><a href="{% url 'services' %}">Services</a></li>
                             <li><a href="{% url 'contact' %}">Contact</a></li>
                             {% if request.session.Username %}
@@ -164,15 +164,7 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3">
-                    <div class="header__cart">
-                        <ul>
-<!--                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>-->
 
-                        </ul>
-<!--                        <div class="header__cart__price">item: <span>$150.00</span></div>-->
-                    </div>
-                </div>
             </div>
             <div class="humberger__open">
                 <i class="fa fa-bars"></i>
@@ -256,29 +248,9 @@
     <section class="product spad">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-5">
-                    <div class="sidebar">
-                        <div class="sidebar__item">
-                            <h4>Department</h4>
-                            <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-lg-9 col-md-7">
+                <div class="col-lg-12 col-md-7">
                     <div class="product__discount">
-                        <div class="section-title product__discount__title">
+                        <div class="section-title product__discount__title" style="text-align: center">
                             <h2>Our Products</h2>
                         </div>
 
@@ -334,36 +306,54 @@
         </div>
     </section>
     <!-- Product Section End -->
+
+
+
 <!-- Footer Section Begin -->
-    <footer class="footer spad">
-        <div class="container">
-          <div class="row">
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="footer__about">
-            <div class="footer__about__logo">
-                <a href="{% url 'home' %}"><img src="{% static 'Web/img/grocery.png' %}" height="150px"  alt=""></a>
+<footer class="footer spad">
+    <div class="container">
+        <div class="row">
+
+            <!-- Logo Column -->
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="footer__about__logo">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'Web/img/grocery.png' %}" height="150px" alt="">
+                    </a>
+                </div>
             </div>
-            <ul>
-                <li>Address:Central Street, Kakkanad</li>
-                <li>Phone: +91 7890 5678 67</li>
-                <li>Email: contactEasygrocery@gmail.com</li>
-            </ul>
+
+            <!-- Address Column -->
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Address</h6>
+                    <ul>
+                        <li>Central Street, Kakkanad</li>
+                        <li>Phone: +91 7890 5678 67</li>
+                        <li>Email: contactEasygrocery@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Useful Links Column -->
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Useful Links</h6>
+                    <ul>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'services' %}">Services</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     </div>
-    <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="footer__widget">
-            <h6>Useful Links</h6>
-            <ul>
-                <li><a href="{% url 'about' %}">About Us</a></li>
-                <li><a href="{% url 'services' %}">Services</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-        </div>
-    </footer>
-    <!-- Footer Section End -->
+</footer>
+<!-- Footer Section End -->
+
+
+
     <!-- Js Plugins -->
      <script src="{% static 'Web/js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'Web/js/bootstrap.min.js' %}"></script>
