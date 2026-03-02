@@ -25,7 +25,7 @@ urlpatterns = [
     path('view_services/', views.view_services, name='view_services'),
     path('delete_services/<int:s_id>/', views.delete_services, name='delete_services'),
 
-    path('admin_login_page/', views.admin_login_page, name='admin_login_page'),
+    path('', views.admin_login_page, name='admin_login_page'),
     path('admin_login/', views.admin_login, name='admin_login'),
     path('admin_logout/', views.admin_logout, name='admin_logout'),
 

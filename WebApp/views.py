@@ -131,11 +131,11 @@ def save_signup(request):
         passwd=request.POST.get("password")
         cpasswd=request.POST.get("confirm_password")
         obj=SignupDB(Username=uname,Email=email,Password=passwd,Confirm_Password=cpasswd)
-        if SignupDB.objects.filter(Username=uname,Password=passwd).exists():
-            print("Username already exists.....")
+        if SignupDB.objects.filter(Username=uname).exists():
+            messages.error(request,"Username already exists...")
             return redirect(sign_up)
         elif SignupDB.objects.filter(Email=email).exists():
-            print("Email already Exists....")
+            messages.error(request,"Email already exists...")
             return redirect(sign_up)
         obj.save()
         messages.success(request,"Registered Successfully...")
@@ -258,6 +258,15 @@ def save_checkout(request):
         return redirect(payment)
 
 def payment(request):
-    return render(request,'payment.html')
+    cart_count = 0
+    uname = request.session.get('Username')
+    if uname:
+        cart_count = CartDB.objects.filter(Username=uname).count()
+    categories = CategoryDB.objects.all()
+    return render(request,'payment.html',
+                  {
+                      'categories':categories,
+                      'cart_count':cart_count
+                  })
 
 
