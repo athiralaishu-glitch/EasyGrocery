@@ -33,29 +33,40 @@
                 <p>Welcome to <b>EasyGrocery!</b></p>
             </div>
 
-            <form method="post" class="harmony-form"  novalidate action="{% url 'save_signup' %}" onsubmit="return form_validation()">
+            <form method="post" class="harmony-form" onsubmit="return user_validation()"     novalidate action="{% url 'save_signup' %}">
                 {% csrf_token %}
-                <div class="organic-field">
+                <div>
+                    <div class="organic-field">
                     <div class="field-nature"></div>
-                    <input type="text"  name="uname" id="name" required autocomplete="username">
+                    <input type="text"  name="uname" id="username" required autocomplete="username">
                     <label >Username</label>
                     <div class="growth-indicator">
                         <div class="leaf-sprout"></div>
                     </div>
-<!--                    <span class="gentle-error" id="emailError"></span>-->
+                </div>
+                    <div style="margin-top: -30px; margin-left: 10px;">
+                         <span style="color: red;" id="userError"></span><br><br>
+                    </div>
                 </div>
 
-                <div class="organic-field">
+                <div>
+                    <div class="organic-field">
                     <div class="field-nature"></div>
-                    <input type="email"  name="email" id="email" required autocomplete="email">
+                    <input type="email" id="email"  name="email" required autocomplete="email">
+
                     <label>Email</label>
                     <div class="growth-indicator">
                         <div class="leaf-sprout"></div>
                     </div>
-<!--                    <span class="gentle-error" id="emailError"></span>-->
+                </div>
+                    <div style="margin-top: -30px; margin-left: 10px;">
+                        <span style="color: red;" id="emailError"></span><br><br>
+                    </div>
                 </div>
 
-                <div class="organic-field">
+
+                <div>
+                    <div class="organic-field">
                     <div class="field-nature"></div>
                     <input type="password" id="password" name="password" required autocomplete="current-password">
                     <label for="password">Password</label>
@@ -67,10 +78,16 @@
                             <path d="M3 3l14 14M8.5 8.5a2 2 0 002.83 2.83m-.83-4.83a4 4 0 014 4M10 6C6 6 3 9 2 12c.5 1.5 2 3.5 4 4.5M10 14c4 0 7-3 8-6-.5-1.5-2-3.5-4-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </button>
-<!--                    <span class="gentle-error" id="passwordError"></span>-->
+
+                </div>
+                    <div style="margin-top: -30px; margin-left: 10px;">
+                        <span id="passwordError" style="color: red;"></span><br><br>
+                    </div>
                 </div>
 
-                <div class="organic-field">
+
+                <div>
+                   <div class="organic-field">
                     <div class="field-nature"></div>
                     <input type="password" name="confirm_password" id="password2" required autocomplete="current-password">
                     <label for="password">Confirm Password</label>
@@ -83,8 +100,13 @@
                             <path d="M3 3l14 14M8.5 8.5a2 2 0 002.83 2.83m-.83-4.83a4 4 0 014 4M10 6C6 6 3 9 2 12c.5 1.5 2 3.5 4 4.5M10 14c4 0 7-3 8-6-.5-1.5-2-3.5-4-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </button>
-                    <span class="gentle-error" id="passwordError"></span>
                 </div>
+                    <div style="margin-top: -30px; margin-left: 10px;">
+                        <span style="color: red;" id="password2Error"></span><br><br>
+                    </div>
+                </div>
+
+
 
 
                 <button type="submit" class="harmony-button">
@@ -130,68 +152,58 @@
             </div>
         </div>
     </div>
+
 <script>
-        function form_validation(){
-        let username = document.getElementById("name").value;
-        let email = document.getElementById("email").value;
-        let password = document.getElementById("password").value;
-        let cpassword = document.getElementById("password2").value;
+    function user_validation(){
+        username = document.getElementById("username").value;
+        email = document.getElementById("email").value;
+        password = document.getElementById("password").value;
+        c_password = document.getElementById("password2").value;
 
-        if(username===""){
-        alert("Name can't be empty!!");
+        // strong pass pattern
+
+        pattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{6,}$/;
+
+        // clear errors
+
+        document.getElementById("userError").innerHTML = "";
+        document.getElementById("emailError").innerHTML = "";
+        document.getElementById("passwordError").innerHTML = "";
+        document.getElementById("password2Error").innerHTML = "";
+
+
+
+        if(username === ""){
+        document.getElementById("userError").innerHTML = "Username can't be empty."
         return false;
         }
 
-        else if(email===""){
-        alert("Enter Email Address!!");
+        if(email === ""){
+        document.getElementById("emailError").innerHTML = "Email can't be empty."
         return false;
         }
 
-        else if(password===""){
-        alert("Password can't be empty!!");
+        if(password === ""){
+        document.getElementById("passwordError").innerHTML = "Password can't be empty."
         return false;
         }
 
-        else if(username===""){
-        alert("Password can't be empty!!");
+        if(!pattern.test(password)){
+        document.getElementById("passwordError").innerHTML = "Password must contain atleast 6 characters, 1 digit, 1 uppercase, 1 special character.";
         return false;
         }
 
-        else{
-        return true;
+        if(c_password === ""){
+        document.getElementById("password2Error").innerHTML = "Confirm Password can't be empty."
+        return false;
         }
-    </script>
 
-
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-    {% if messages %}
-    {% for msg in messages %}
-        {% if msg.tags == "success" %}
-            <script>
-                swal('{{msg}}','','success')
-            </script>
-        {% elif msg.tags == "warning" %}
-            <script>
-                swal('{{msg}}','','warning')
-            </script>
-        {% elif msg.tags == "error" %}
-            <script>
-                swal('{{msg}}','','error')
-            </script>
-        {% elif msg.tags == "info" %}
-            <script>
-                swal('{{msg}}','','info')
-            </script>
-
-        {% endif %}
-    {% endfor %}
-{% endif %}
-
-
-
-
-
+        if(password !== c_password){
+        document.getElementById("password2Error").innerHTML = "Password do not match."
+        return false;
+        }
+    }
+</script>
 <!--    <script src="{% static '../../shared/js/form-utils.js' %}"></script>-->
 <!--    <script src="{% static 'login/js/script.js' %}"></script>-->
 </body>

@@ -149,7 +149,7 @@ def user_login(request):
         if SignupDB.objects.filter(Username=uname,Password=pswd).exists():
             request.session['Username']=uname
             request.session['Password']=pswd
-            messages.success(request, "Logged in Successfully...")
+            # messages.success(request, "Logged in Successfully...")
             return redirect(home)
         else:
             messages.error(request, "Invalid username or password...")
