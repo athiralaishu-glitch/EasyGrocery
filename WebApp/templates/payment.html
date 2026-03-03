@@ -23,11 +23,6 @@
     <link rel="stylesheet" href="{% static 'Web/css/owl.carousel.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'Web/css/slicknav.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'Web/css/style.css' %}" type="text/css">
-
-
-
-
-
 </head>
 
 <body>
@@ -36,10 +31,11 @@
         <div class="loader"></div>
     </div>
 
-       <div class="humberger__menu__overlay"></div>
+    <!-- Humberger Begin -->
+    <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="{% static 'Web/img/logo.png' %}" alt=""></a>
+            <a href="#"><img src="{% static 'Web/img/logoeasygrocery.png' %}" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
@@ -65,7 +61,7 @@
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li ><a href="./index.html">Home</a></li>
-                <li class="active"><a href="#">About</a></li>
+                <li><a href="#">About</a></li>
                 <li><a href="">Categories</a>
                     <ul class="header__menu__dropdown">
                         <li><a href="./shop-details.html">Shop Details</a></li>
@@ -143,14 +139,14 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="{% static 'Web/img/logo.png' %}" alt=""></a>
+                        <a href="./index.html"><img src="{% static 'Web/img/grocery.png' %}" height="150px" style="margin-top:-50px" alt=""></a>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <nav class="header__menu">
                         <ul>
-                            <li ><a href="{% url 'home' %}">Home</a></li>
-                            <li class="active"><a href="{% url 'about' %}">About</a></li>
+                            <li class="active"><a href="./index.html">Home</a></li>
+                            <li><a href="{% url 'about' %}">About</a></li>
                             <li><a href="#">Categories</a>
                                 <ul class="header__menu__dropdown">
                                     {% for i in categories %}
@@ -163,20 +159,12 @@
                             <li><a href="{% url 'services' %}">Services</a></li>
                             <li><a href="{% url 'contact' %}">Contact</a></li>
                             {% if request.session.Username %}
-                            <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-bag"></i> <span>{{cart_count}}</span></a></li>
+                            <li class="active"><a href="{% url 'cart' %}"><i class="fa fa-shopping-bag"></i> <span>{{cart_count}}</span></a></li>
                             {% endif %}
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3">
-                    <div class="header__cart">
-                        <ul>
-<!--                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>-->
 
-                        </ul>
-<!--                        <div class="header__cart__price">item: <span>$150.00</span></div>-->
-                    </div>
-                </div>
             </div>
             <div class="humberger__open">
                 <i class="fa fa-bars"></i>
@@ -215,6 +203,8 @@
 
     <!-- Related Product Section Begin -->
     <section class="related-product">
+        <form method="post" >
+            {% csrf_token %}
         <div class="container text-center" >
 
             <button type="submit" class="site-btn" >Proceed to Payment</button>
@@ -236,6 +226,7 @@
 
             </div>
         </div>
+            </form>
     </section>
     <!-- Related Product Section End -->
 
@@ -291,6 +282,19 @@
     <script src="{% static 'Web/js/mixitup.min.js' %}"></script>
     <script src="{% static 'Web/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'Web/js/main.js' %}"></script>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"
+    data-key="rzp_test_0ib0jPwwZ7I1lT"
+    data-amount="{{pay_str}}"
+    data-currency="INR"
+    data-order_id="{{payment.order_id}}"
+    data-name="EasyGrocery"
+    data-description="Online Grocery store"
+    data-prefil.name="EasyGrocery"
+    data-theme.color="#28a745">
+
+</script>
 
 
 </body>

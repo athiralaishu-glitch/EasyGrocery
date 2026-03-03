@@ -4,6 +4,7 @@ from django.shortcuts import render,redirect
 from AdminApp.models import *
 from WebApp.models import *
 from django.contrib import messages
+import razorpay
 
 # Create your views here.
 def home(request):
@@ -264,10 +265,22 @@ def payment(request):
     if uname:
         cart_count = CartDB.objects.filter(Username=uname).count()
     categories = CategoryDB.objects.all()
+    #Adding details for payment
+    customer=CheckoutDB.objects.order_by('-id').first()
+    pay=int(customer.Grandtotal)
+
+    amount=int(pay*100)
+    pay_str=str(amount)
+
+    if request.method=='POST':
+        order_currency="INR"
+        client=razorpay.Client(auth=('rzp_test_0ib0jPwwZ7I1lT','VjHNO5zKeKxz8PYe7VnzwxMR'))
+        payment=client.order.create({'amount':amount, 'currency':order_currency})
     return render(request,'payment.html',
                   {
                       'categories':categories,
-                      'cart_count':cart_count
+                      'cart_count':cart_count,
+                      'pay_str':pay_str
                   })
 
 
