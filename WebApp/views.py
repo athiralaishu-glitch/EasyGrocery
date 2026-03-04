@@ -1,4 +1,4 @@
-
+from platform import uname
 
 from django.shortcuts import render,redirect
 from AdminApp.models import *
@@ -192,6 +192,21 @@ def cart(request):
                             'categories': categories,
                             'cart_count': cart_count
                    })
+
+
+def cart_quantity_update(request,cart_id):
+    if request.method=="POST":
+        action=request.POST.get("action")
+        cart=CartDB.objects.get(id=cart_id)
+
+        if action == "plus":
+            cart.Quantity += 1
+        elif action== "minus":
+            cart.Quantity -= 1
+        cart.TotalPrice=cart.Quantity * cart.Price
+        cart.save()
+    return redirect('cart')
+
 
 
 def save_cart(request):
